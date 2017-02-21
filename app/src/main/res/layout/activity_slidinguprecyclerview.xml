@@ -1,0 +1,252 @@
+<!--
+  Copyright 2014 Soichiro Kashima
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:clipChildren="false">
+
+    <!--
+    Dummy background contents.
+    You can replace this to map or something.
+    -->
+
+    <!--<fragment-->
+        <!--android:id="@+id/slid_map"-->
+        <!--android:name="com.google.android.gms.maps.SupportMapFragment"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--/>-->
+    <!--浮动按钮-->
+    <FrameLayout
+        android:id="@+id/fram_map_offline_button"
+        android:visibility="visible"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <ImageView
+            android:id="@+id/btn_draw_State"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="left|top"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="80dp"
+            android:src="@mipmap/ic_launcher"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|top"
+            android:layout_marginLeft="28dp"
+            android:layout_marginTop="80dp"
+            android:text="10"
+            android:textColor="@color/white"
+            android:textSize="18sp"/>
+    </FrameLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_stop_choose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:background="@color/defaultWhite"
+        android:visibility="gone"
+        >
+
+        <TextView
+            android:id="@+id/tv_product_route"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Wilming,NC to Durharm,NC"/>
+
+        <TextView
+            android:id="@+id/tv_product_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_product_route"
+            android:layout_centerHorizontal="true"
+            android:text="6.00am-10.00am"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_launcher"/>
+    </RelativeLayout>
+
+    <com.github.ksoichiro.android.observablescrollview.TouchInterceptionFrameLayout
+        android:id="@+id/scroll_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/defaultWhite"
+        android:clipChildren="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipChildren="false">
+
+                <View
+                    android:id="@+id/header_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/header_bar_height"
+                    android:minHeight="@dimen/header_bar_height"/>
+
+                <LinearLayout
+                    android:id="@+id/header_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/header_bar_height"
+                    android:minHeight="@dimen/header_bar_height"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:background="@android:color/white"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:maxLines="1"
+                        android:paddingLeft="@dimen/margin_standard"
+                        android:textColor="@android:color/white"
+                        android:textSize="20sp"/>
+                </LinearLayout>
+
+                <!--第一栏-->
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:src="@mipmap/ic_launcher"
+                    />
+
+                <LinearLayout
+                    android:id="@+id/header_overlay"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/abc_action_bar_content_inset_material"
+                    android:background="@color/defaultWhite"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/checkin_angle_right"
+                        android:layout_width="50dp"
+                        android:layout_height="5dp"
+                        android:background="@drawable/gray_bar"
+                        android:layout_gravity="center"
+                        android:scaleType="centerInside"
+                        />
+
+                    <LinearLayout
+                        android:id="@+id/ll_translate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            >
+
+                            <Button
+                                android:id="@+id/tv_choose_destination"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:background="@color/transparent"
+                                android:drawableRight="@mipmap/ic_launcher"
+                                android:text="Choose a destination"
+                                android:textAllCaps="false"
+                                android:textColor="@color/gray1"
+                                />
+
+                            <TextView
+                                android:id="@+id/station_city"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:paddingLeft="15dp"
+                                android:text="Washington DC:"
+                                android:textColor="@color/black"
+                                android:textSize="18sp"/>
+
+
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingBottom="10dp"
+                            android:paddingLeft="15dp">
+
+                            <ImageView
+                                android:id="@+id/im_point"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:paddingRight="17dp"
+                                android:scaleType="centerInside"
+                                android:src="@mipmap/ic_launcher"/>
+
+                            <TextView
+                                android:id="@+id/tv_busstation_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Choose a destination"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </FrameLayout>
+
+            <com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView
+                android:id="@+id/scroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"/>
+        </LinearLayout>
+    </com.github.ksoichiro.android.observablescrollview.TouchInterceptionFrameLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_check"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/defaultWhite"
+        android:paddingRight="5dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray1"/>
+
+    </LinearLayout>
+</FrameLayout>
