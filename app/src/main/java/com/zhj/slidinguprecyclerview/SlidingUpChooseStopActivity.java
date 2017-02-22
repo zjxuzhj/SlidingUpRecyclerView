@@ -19,6 +19,7 @@ package com.zhj.slidinguprecyclerview;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -28,7 +29,6 @@ import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
@@ -37,13 +37,14 @@ import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.github.ksoichiro.android.observablescrollview.TouchInterceptionFrameLayout;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.ViewHelper;
+import com.zhj.slidinguprecyclerview.adapter.SimpleRecyclerAdapter;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SlidingUpChooseStopActivity extends BaseActivity implements ObservableScrollViewCallbacks {
+public class SlidingUpChooseStopActivity extends AppCompatActivity implements ObservableScrollViewCallbacks {
 
     private static final String STATE_SLIDING_STATE = "slidingState";
     protected static final int SLIDING_STATE_TOP = 0;
@@ -51,11 +52,8 @@ public class SlidingUpChooseStopActivity extends BaseActivity implements Observa
     protected static final int SLIDING_STATE_BOTTOM = 2;
     protected static final int SLIDING_STATE_INIT = 3;
 
-    //a
     @BindView(R.id.header)
     FrameLayout mHeader;
-    @BindView(R.id.rl_stop_choose)
-    RelativeLayout mRlStopChoose;
     @BindView(R.id.ll_translate)
     LinearLayout mLlTranslate;
     @BindView(R.id.im_point)
@@ -71,10 +69,6 @@ public class SlidingUpChooseStopActivity extends BaseActivity implements Observa
     @BindView(R.id.fram_map_offline_button)
     FrameLayout mFramMapOfflineButton;
 
-    @BindView(R.id.tv_product_route)
-    TextView mTvProductRoute;
-    @BindView(R.id.tv_product_time)
-    TextView mTvProductTime;
     private ObservableRecyclerView mScrollable;
     private TouchInterceptionFrameLayout mInterceptionLayout;
 
@@ -105,6 +99,9 @@ public class SlidingUpChooseStopActivity extends BaseActivity implements Observa
     private int mTopBarHeight;
     private int mSlidY;
     private LinearLayoutManager mLinearLayoutManager;
+    protected int getScreenHeight() {
+        return findViewById(android.R.id.content).getHeight();
+    }
     /**
      * 初始化recyclerview
      *
@@ -121,6 +118,8 @@ public class SlidingUpChooseStopActivity extends BaseActivity implements Observa
         for (int i = 0; i < 30; i++) {
             mItems.add("Item " + i);
         }
+        SimpleRecyclerAdapter simpleRecyclerAdapter = new SimpleRecyclerAdapter(this,mItems);
+        mRecyclerView.setAdapter(simpleRecyclerAdapter);
         //监听得到初始布局高度
         ViewTreeObserver vto2 = mHeader.getViewTreeObserver();
         vto2.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -149,7 +148,6 @@ public class SlidingUpChooseStopActivity extends BaseActivity implements Observa
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_slidinguprecyclerview);
         ButterKnife.bind(this);
-
         mIntersectionHeight = getResources().getDimensionPixelSize(R.dimen.intersection_height);
         mHeaderBarHeight = getResources().getDimensionPixelSize(R.dimen.header_bar_height);
         mSlidingSlop = getResources().getDimensionPixelSize(R.dimen.sliding_slop);
@@ -202,13 +200,14 @@ public class SlidingUpChooseStopActivity extends BaseActivity implements Observa
         public boolean shouldInterceptTouchEvent(MotionEvent ev, boolean moving, float diffX, float diffY) {
             final int minInterceptionLayoutY = -mIntersectionHeight;
             // slight fix for untappable floating action button for larger screens
-//            Rect rect = new Rect();
-//                if (rect.contains((int) ev.getX(), (int) ev.getY()) || rect.contains((int) ev.getX(), (int) ev.getY())) {
-//                    return false;
-//                } else {
+            Rect rect = new Rect();
+            mRecyclerView.getHitRect(rect);
+                if ( rect.contains((int) ev.getX(), (int) ev.getY())) {
+                    return false;
+                } else {
                     return minInterceptionLayoutY < (int) ViewHelper.getY(mInterceptionLayout)
                             || (moving && mScrollable.getCurrentScrollY() - diffY < 0);
-//                }
+                }
         }
 
 
