@@ -17,7 +17,6 @@
 package com.zhj.slidinguprecyclerview;
 
 import android.graphics.Rect;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,7 +25,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -53,6 +51,7 @@ public class SlidingUpChooseStopActivity extends BaseActivity implements Observa
     protected static final int SLIDING_STATE_BOTTOM = 2;
     protected static final int SLIDING_STATE_INIT = 3;
 
+    //a
     @BindView(R.id.header)
     FrameLayout mHeader;
     @BindView(R.id.rl_stop_choose)
@@ -95,14 +94,11 @@ public class SlidingUpChooseStopActivity extends BaseActivity implements Observa
     private float mMovedDistanceY;
     private float mScrollYOnDownMotion;
 
-    private Button mBtnChooseDestination;
-    private LocationManager mLocationManager;
     private ObservableRecyclerView mRecyclerView;
     private ArrayList<String> mItems;
     private int mWindowHeight;
     private int mHeaderHeight;
     private int mCheckinAngleRightHeight;
-    private int mTvStopNameHeight;
     /**
      * 禁止滑块滑动
      */
@@ -150,7 +146,6 @@ public class SlidingUpChooseStopActivity extends BaseActivity implements Observa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        StatusBarUtils.setWindowStatusBarColor(SlidingUpChooseStopActivity.this, R.color.black);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_slidinguprecyclerview);
         ButterKnife.bind(this);
@@ -236,7 +231,6 @@ public class SlidingUpChooseStopActivity extends BaseActivity implements Observa
 
             slideTo(translationY, true);
             mMovedDistanceY = ViewHelper.getTranslationY(mInterceptionLayout) - mInitialY;
-            stickToAnchors();
         }
 
         @Override
@@ -341,9 +335,6 @@ public class SlidingUpChooseStopActivity extends BaseActivity implements Observa
     }
 
     private void initView() {
-//        Drawable fontDrawable = CompanyUtils.getFontDrawable(getResources().getColor(R.color.gray1), 15, SlidingUpChooseStopActivity.this, FontAwesome.Icon.faw_map_marker);
-//        mImPoint.setImageDrawable(fontDrawable);
-
         //滑动的模块
         mInterceptionLayout = (TouchInterceptionFrameLayout) findViewById(R.id.scroll_wrapper);
         mInterceptionLayout.setScrollInterceptionListener(mInterceptionListener);
